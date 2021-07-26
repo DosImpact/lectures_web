@@ -4,9 +4,10 @@ import { Record } from "../../interfaces";
 
 //TODO 본인 airtable 계정 url로 수정
 axios.defaults.baseURL = "https://api.airtable.com/v0/appgzS2pgsk4gFZ5h/Todo";
+
 axios.interceptors.request.use(async (config) => {
   if (!config.headers["Authorization"]) {
-    config.headers["Authorization"] = `Bearer keyffN8KqFTmNQ4P5`;
+    config.headers["Authorization"] = `Bearer keyzuW2UKRSx5akyS`;
   }
   config.headers["Content-Type"] = "application/json";
 

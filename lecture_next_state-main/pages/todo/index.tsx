@@ -114,7 +114,6 @@ const Home = () => {
     <div>
       <Counter />
       <Todo />
-      <Todo />
     </div>
   );
 };
