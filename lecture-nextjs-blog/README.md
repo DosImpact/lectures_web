@@ -87,6 +87,45 @@ Prefetching
 
 ## 04
 
+head 태그를 변경하기  
+- 오픈 그래프 등 meta 데이터는 SEO에 중요하다.  
+[https://blog.ab180.co/posts/open-graph-as-a-website-preview](https://blog.ab180.co/posts/open-graph-as-a-website-preview)
+```jsx
+import Head from "next/head";
+
+export default function Post({post}) {
+  return (
+    <>
+      <Head>
+        <title>{post.title}</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <h1>{post.title}</h1>
+      <p>{post.description}</p>
+    </>
+  );
+}
+```
+## 05
+[https://nextjs.org/learn/basics/data-fetching/two-forms](https://nextjs.org/learn/basics/data-fetching/two-forms)
+
+Pre-Rendering  
+- SSR시 매번 동일한 데이터를 넣고 보내는 과정을 생략할 수 없을까?  
+- 인터렉티브한 JS 전까지 랜더링을 하여 HTML 빠르게 보낼 수 있도록  
+
+Pre-Rendering 과정    
+- 1. initial Load : js 동작없이 HTML만 빠르게 제공한다.   
+- 2. Hydration : js파일을 연결시켜 Link컴포넌트 등 인터렉션이 작동 하도록 한다.  
+
+Pre-Rendering 2가지 SSG , SSR    
+- 1. SSG : Marketing pages, Blog posts, E-commerce product listings, Help and documentation
+- 2. SSR : 사용자의 요청마다 pre-render를 한다면  
+
+
+## 06
+SSG 생성시 외부데이터를 가져오는 방법  
+1. getStaticProps : 페이지 내용이 외부 props 에 의해 만들어지는 경우  
+2. getStaticPaths : 페이지 내용이 path 에 의해 만들어지는 경우  
 
 
 ## Ref

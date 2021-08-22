@@ -1,30 +1,32 @@
-import Link from "next/link";
-
-const users = [
-  { id: 1, name: "James" },
-  { id: 2, name: "Martin" },
-  { id: 3, name: "Danial" },
-];
-
-function Home() {
+import React from "react";
+import { data } from "../data/myInfo";
+const Info = ({ jsonData }) => {
   return (
-    <ul>
-      <li>
-        <Link href="/">
-          <a>Home</a>
-        </Link>
-      </li>
-      <li>
-        {users.map((user) => (
-          <ul key={user.id}>
-            <Link href={`/user/${encodeURIComponent(user.id)}`}>
-              <a>{user.name}</a>
-            </Link>
+    <div>
+      <h1>this is about</h1>
+      {jsonData.map((data) => (
+        <div key={data.id}>
+          <h3>{data.name}</h3>
+          <ul>
+            <h4>{data.email}</h4>
           </ul>
-        ))}
-      </li>
-    </ul>
+        </div>
+      ))}
+    </div>
   );
-}
+};
 
-export default Home;
+export async function getStaticProps(context) {
+
+  if(!data) {
+    return {
+      notFound: true,
+    }
+  }
+  return {
+    props: {
+      jsonData: data,
+    },
+  };
+}
+export default Info;
