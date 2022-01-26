@@ -43,6 +43,21 @@ hydrate는 렌더링은 하지 않고 이벤트 핸들러만 붙여준다.
 서버사이드렌더링을 해서 이미 마크업이 채워져있는 경우에는 굳이 render 메소드를 사용할 필요가 없다.  
 SSR을 하는 경우에는 hydrate로 콜백만 붙여야 한다.
 
+# NextJS - Features
+
+- [ ] styling
+
+  - [ ] CSS Module
+  - [ ] Styles JSX
+  - [ ] styled-components
+
+- [ ] next/link,next/router
+- [ ] next/head
+- [ ] SSR
+- [ ] SSG
+- [ ] overrideComponent
+      ` _app.js, 404.js`
+
 ## Router
 
 useRouter
