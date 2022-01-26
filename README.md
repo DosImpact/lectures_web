@@ -1,3 +1,12 @@
+# welcome Lectures web & framework
+
+Web 라이브러리 및 프레임워크를 학습합니다 !
+
+Points
+
+    ReactJS
+    NextJS
+
 ## Lectures Next.JS !
 
 ## 1. lecture-next-crash-main
