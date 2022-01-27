@@ -34,8 +34,7 @@
 
 - [ ] ContextAPI
 
-  - [ ] Provider
-  - [ ] useContext
+  - [ ] Provider & useContext
 
 ---
 
@@ -426,10 +425,45 @@ redux-thunk 외 작업 처리
 
 --
 
-Appendix
+@Appendix
 
 # ContextAPI
 
-## Provider
+## Provider & useContext
 
-## useContext
+```js
+//1. Provider 정의
+import { createContext } from "react";
+
+const PostContext = createContext({
+  page: null,
+  setPage: null,
+  totalPage: null,
+  postQuery: null,
+  postsQuery: null,
+  handleGetPostById: null,
+});
+
+export default PostContext;
+
+//2. Provider 값 할당
+
+const ViewModel = () => {
+   ...
+
+  return (
+    <PostContext.Provider
+      value={{
+        page,
+        setPage,
+        totalPage: postsCounter,
+        postQuery,
+        postsQuery,
+        handleGetPostById,
+      }}
+    >
+      <View />
+    </PostContext.Provider>
+  );
+};
+```
