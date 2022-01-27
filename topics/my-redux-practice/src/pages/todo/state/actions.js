@@ -1,4 +1,4 @@
-import { writeServerLogAsync } from "../../common/state/actions";
+import { writeServerLogAsync } from "../../common/state/serverLogActions";
 
 export const ADD_TODO = "ADD_TODO";
 export const UPDATE_TODO = "UPDATE_TODO";

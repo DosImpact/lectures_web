@@ -5,11 +5,15 @@ import reduxLogger from "redux-logger";
 import ReduxThunk from "redux-thunk";
 
 import { todoReducer } from "../pages/todo/state/reducer";
-import { serverLogReducer } from "../pages/common/state/reducer";
+import { queryReducer } from "../pages/common/state/queryReducer";
+import { serverLogReducer } from "../pages/common/state/serverLogReducer";
+import { cacheReducer } from "../pages/common/state/cacheReducer";
 
 const rootReducer = combineReducers({
   todo: todoReducer,
   serverLog: serverLogReducer,
+  query: queryReducer,
+  cache: cacheReducer,
 });
 
 const rootMiddleWares = [

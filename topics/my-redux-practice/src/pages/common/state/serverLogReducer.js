@@ -1,4 +1,4 @@
-import { WRITE_LOG } from "./actions";
+import { WRITE_LOG } from "./serverLogActions";
 
 export const serverLogReducer = (
   state = { log: "", lastUpdate: "" },

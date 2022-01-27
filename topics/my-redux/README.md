@@ -18,8 +18,24 @@
   - [ ] myLogger.js
   - [ ] redux-devtools-extension
   - [ ] redux-thunk
+
+    - [ ] Basic
+    - [ ] Promise handling
+    - [ ] Cache API Data
+
   - [ ] redux-saga
   - [ ] react-router-redux
+
+- [ ] Addon
+  - [ ] subReducer - immer
+  - [ ]
+
+@Appendix
+
+- [ ] ContextAPI
+
+  - [ ] Provider
+  - [ ] useContext
 
 ---
 
@@ -220,6 +236,185 @@ thunk 로 서버State 동기화를 위해 유틸함수를 만들어 보자.
 - GET_POST, GET_POST_SUCCESS, GET_POST_ERROR 을 GET_POST 의 하위 액션들로 보는 관점
 - 리듀서에서 하위 리듀서 함수를 만들어 위임하는것이 가능
 
+### 프로미스 thunk 다루기
+
+아래의 3단계로 서버에서 데이터를 가져와 상태를 로컬에 저장하도록 , thunk를 정의할 수 있다.
+
+```js
+// 1. 액션 정의
+export const GET_POST = "GET_POST";
+export const GET_POST_SUCCESS = "GET_POST_SUCCESS";
+export const GET_POST_FAIL = "GET_POST_FAIL";
+
+// 2. thunk 함수 정의
+export const getPost =
+  ({ id }) =>
+  async (dispatch) => {
+    dispatch({ type: GET_POST });
+    try {
+      const post = await getPostById({ id });
+      dispatch({ type: GET_POST_SUCCESS, payload: { data: post } });
+    } catch (error) {
+      dispatch({ type: GET_POST_FAIL, payload: { error } });
+    }
+  };
+
+import { GET_POST, GET_POST_FAIL, GET_POST_SUCCESS } from "./queryActions";
+
+// 3. reducer 정의
+const initState = {};
+
+export const queryReducer = (state = initState, action) => {
+  const payload = action.payload;
+  switch (action.type) {
+    case GET_POST: {
+      return {
+        ...state,
+        post: {
+          loading: true,
+          error: null,
+          data: null,
+        },
+      };
+    }
+    case GET_POST_SUCCESS: {
+      console.log("payload", payload);
+      return {
+        ...state,
+        post: {
+          loading: false,
+          error: null,
+          data: payload.data,
+        },
+      };
+    }
+    case GET_POST_FAIL: {
+      return {
+        ...state,
+        post: {
+          loading: false,
+          error: payload.error,
+          data: null,
+        },
+      };
+    }
+    default:
+      return state;
+  }
+};
+```
+
+### 프로미스 함수 리팩토링 포인트
+
+Promise 상태에 따른, 3가지 State 가 존재 ( Start -> Success | Fail )
+
+목적 : api.getPost() 을 호출했는데, Redux에 상태별로 상태가 동기화 되도록 하기
+
+1. 액션을 3개 만들어야 한다. -> 상수로 직접 명세
+2. thunk 함수 로직이 동일 하다 -> api함수를 받아서 시작,성공,실패 로직은 추상화 가능
+3. 액션 3개에 따른 리듀서 로직도 늘어났다. -> 서브 리듀서로 추상화 하여 위임하기
+
+```js
+import { PROMISE_FAIL, PROMISE_SUCCESS } from "./queryActions";
+
+/**
+ * thunk 함수 일반화
+ *    프로미스를 다루는 3단계를 추상화 합니다.
+ *    (3단계 - pending,succss,fail)
+ *
+ * asyncFunc 라는 api 호출 함수를 wrapping 하여
+ *  호출 상황에 맞게 dispatch를 날리도록 꾸며주는 역할
+ */
+export const createAsyncThunk = (type, asyncFunc) => {
+  const [sucessType, failType] = [
+    `${type}${PROMISE_SUCCESS}`,
+    `${type}${PROMISE_FAIL}`,
+  ];
+
+  return (params) => async (dispatch, getState) => {
+    dispatch({ type });
+    try {
+      const result = await asyncFunc(params);
+      dispatch({ type: sucessType, payload: { data: result } });
+    } catch (error) {
+      dispatch({ type: failType, payload: { error } });
+    }
+  };
+};
+/**
+ * 객체를 생성하는 함수를 묶음
+ */
+export const createAsyncActionState = {
+  init: (initData = null) => ({ loading: false, data: initData, error: null }),
+  pending: () => ({ loading: true, data: null, error: null }),
+  sucess: (data) => ({ loading: false, data, error: null }),
+  fail: (error) => ({ loading: false, data: null, error }),
+};
+
+/**
+ * type - 연관 3개의 타입을 처리할 수 있도록 서브 리듀서 함수를 만들었음
+    case GET_POST:
+    case GET_POST_SUCCESS:
+    case GET_POST_FAIL: 
+ */
+export const reduceAsyncAction = (type, key) => {
+  const [sucessType, failType] = [
+    `${type}${PROMISE_SUCCESS}`,
+    `${type}${PROMISE_FAIL}`,
+  ];
+
+  return (state, action) => {
+    switch (action.type) {
+      case type: {
+        return {
+          ...state,
+          [key]: createAsyncActionState.pending(),
+        };
+      }
+      case sucessType: {
+        return {
+          ...state,
+          [key]: createAsyncActionState.sucess(action.payload.data),
+        };
+      }
+      case failType: {
+        return {
+          ...state,
+          [key]: createAsyncActionState.fail(action.payload.error),
+        };
+      }
+      default:
+        return state;
+    }
+  };
+};
+```
+
+```js
+export const GET_POST_KEY = "post";
+export const GET_POST = "GET_POST";
+export const GET_POST_SUCCESS = "GET_POST_SUCCESS";
+export const GET_POST_FAIL = "GET_POST_FAIL";
+
+export const getPostV2 = createAsyncThunk(GET_POST, getPostById);
+
+const initState = {
+  [GET_POST_KEY]: createAsyncActionState.init(),
+};
+
+export const queryReducer = (state = initState, action) => {
+  switch (action.type) {
+    case GET_POST:
+    case GET_POST_SUCCESS:
+    case GET_POST_FAIL: {
+      return reduceAsyncAction(GET_POST, GET_POST_KEY)(state, action);
+    }
+    default:
+      return state;
+  }
+};
+```
+
 ## redux-saga
 
 redux-thunk 외 작업 처리
@@ -228,3 +423,13 @@ redux-thunk 외 작업 처리
     특정 액션이 발생했을 때 이에 따라 다른 액션이 디스패치되게끔 하거나, 자바스크립트 코드를 실행
     웹소켓을 사용하는 경우 Channel 이라는 기능을 사용하여 더욱 효율적으로 코드를 관리  (참고)
     API 요청이 실패했을 때 재요청하는 작업
+
+--
+
+Appendix
+
+# ContextAPI
+
+## Provider
+
+## useContext
