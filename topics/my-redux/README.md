@@ -19,9 +19,10 @@
   - [ ] redux-devtools-extension
   - [ ] redux-thunk
 
-    - [ ] Basic
-    - [ ] Promise handling
-    - [ ] Cache API Data
+    - [ ] thunk Basic
+    - [ ] 프로미스 thunk 다루기
+    - [ ] thunk 리팩토링 - (1) 함수분리하기
+    - [ ] thunk 리팩토링 - (2) 캐시처리하기
 
   - [ ] redux-saga
   - [ ] react-router-redux
@@ -212,6 +213,8 @@ next에 대한 책임을 진다.
 
 그래서 thunk 는 ( 비동기 함수 액션 크리에이터) dispatch,getState 인자로 받는 함수가 된다.
 
+### thunk Basic
+
 ```js
 import ReduxThunk from "redux-thunk";
 
@@ -303,7 +306,7 @@ export const queryReducer = (state = initState, action) => {
 };
 ```
 
-### 프로미스 함수 리팩토링 포인트
+### thunk 리팩토링 - (1) 함수분리하기
 
 Promise 상태에 따른, 3가지 State 가 존재 ( Start -> Success | Fail )
 
@@ -413,6 +416,8 @@ export const queryReducer = (state = initState, action) => {
   }
 };
 ```
+
+### thunk 리팩토링 - (2) 캐시처리하기
 
 ## redux-saga
 
