@@ -4,8 +4,11 @@ Web 라이브러리 및 프레임워크를 학습합니다 !
 
 Points
 
-    ReactJS
-    NextJS
+- [ ] ReactJS
+
+  - [ ] Redux
+
+- [ ] NextJS
 
 ## Lectures Next.JS !
 
