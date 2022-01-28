@@ -23,8 +23,12 @@
     - [ ] 프로미스 thunk 다루기
     - [ ] thunk 리팩토링 - (1) 함수분리하기
     - [ ] thunk 리팩토링 - (2) 캐시처리하기
+    - [ ] thunk + react-router-dom 연동하기
 
   - [ ] redux-saga
+
+    - [ ] saga basic
+
   - [ ] react-router-redux
 
 - [ ] Addon
@@ -544,14 +548,61 @@ export const createAsyncThunk = (type, asyncFunc) => {
 };
 ```
 
+### thunk + react-router-dom 연동하기
+
+react-router-dom 버전을 @^5.3.0 을 사용하자 (v6은 많은 변화가 생겼다. )  
+https://reactrouter.com/docs/en/v6/getting-started/tutorial
+
+Router 컴포넌트는 아래의 원형 컴포넌트이다. 커스타마이징을 위해 이 컴포넌트를 사용하자.
+
+```
+<BrowserRouter>
+<HashRouter>
+<MemoryRouter>
+<NativeRouter>
+<StaticRouter>
+```
+
+```js
+// 1. 브라우저 히스토리 생성
+import { createBrowserHistory } from "history";
+export const customHistory = createBrowserHistory();
+
+// 2. thunk 연동
+const rootMiddleWares = [
+  //myLogger,
+  reduxLogger,
+  ReduxThunk.withExtraArgument({ history: customHistory }),
+];
+
+// 3. Router 연동
+import { Router } from "react-router-dom";
+import { customHistory } from "./redux/store";
+
+function App() {
+  return (
+    <Router history={customHistory}>
+      <Todo />
+      <Post />
+    </Router>
+  );
+}
+// 4. thunk 의 3번쨰 인자는  withExtraArgument 을 주입받는다.
+export const goToHome =
+  () =>
+  (dispatch, getState, { history }) => {
+    history.push("/");
+  };
+```
+
 ## redux-saga
 
 redux-thunk 외 작업 처리
 
-    비동기 작업을 할 때 기존 요청을 취소 처리
-    특정 액션이 발생했을 때 이에 따라 다른 액션이 디스패치되게끔 하거나, 자바스크립트 코드를 실행
-    웹소켓을 사용하는 경우 Channel 이라는 기능을 사용하여 더욱 효율적으로 코드를 관리  (참고)
-    API 요청이 실패했을 때 재요청하는 작업
+비동기 작업을 할 때 **기존 요청을 취소** 처리  
+**특정 액션이 발생했을 때** 이에 따라 다른 액션이 디스패치되게끔 하거나, 자바스크립트 코드를 실행  
+**웹소켓을 사용하는 경우 Channel** 이라는 기능을 사용하여 더욱 효율적으로 코드를 관리 (참고)  
+API 요청이 실패했을 때 **재요청**하는 작업
 
 --
 
