@@ -2,46 +2,34 @@
 
 @Index
 
-- [x] [Redux Concepts](#Redux-Concepts)
+- [Redux Tutorials](#redux-tutorials)
+- [Redux Concepts](#redux-concepts)
+  - [install](#install)
+  - [Redux 구성](#redux-구성)
+    - [3대 규칙](#3대-규칙)
+- [redux & react-redux](#redux--react-redux)
+  - [Settings(DuckPattern & combineReducer)](#settingsduckpattern--combinereducer)
+    - [useSelector](#useselector)
+- [middleWares](#middlewares)
+  - [myLogger.js](#myloggerjs)
+  - [redux-devtools-extension](#redux-devtools-extension)
+  - [redux-thunk](#redux-thunk)
+    - [thunk Basic](#thunk-basic)
+    - [프로미스 thunk 다루기](#프로미스-thunk-다루기)
+    - [thunk 리팩토링 - (1) 함수분리하기](#thunk-리팩토링---1-함수분리하기)
+    - [thunk 리팩토링 - (2) 캐시처리하기](#thunk-리팩토링---2-캐시처리하기)
+    - [thunk + react-router-dom 연동](#thunk--react-router-dom-연동)
+  - [redux-saga](#redux-saga)
+    - [saga basic](#saga-basic)
+- [@Appendix](#appendix)
+- [ContextAPI](#contextapi)
+  - [Provider & useContext](#provider--usecontext)
 
-  - [ ] install
-  - [ ] Redux 구성
-    - [ ] 3대 규칙
 
-- [ ] redux & react-redux
-
-  - [ ] Settings(DuckPattern & combineReducer)
-  - [ ] connect HOC 함수
-
-- [ ] middleWares
-
-  - [ ] myLogger.js
-  - [ ] redux-devtools-extension
-  - [ ] redux-thunk
-
-    - [ ] thunk Basic
-    - [ ] 프로미스 thunk 다루기
-    - [ ] thunk 리팩토링 - (1) 함수분리하기
-    - [ ] thunk 리팩토링 - (2) 캐시처리하기
-    - [ ] thunk + react-router-dom 연동하기
-
-  - [ ] redux-saga
-
-    - [ ] saga basic
-
-  - [ ] react-router-redux
-
-- [ ] Addon
-  - [ ] subReducer - immer
-  - [ ]
-
-@Appendix
-
-- [ ] ContextAPI
-
-  - [ ] Provider & useContext
 
 ---
+
+
 
 # Redux Concepts
 
@@ -548,7 +536,7 @@ export const createAsyncThunk = (type, asyncFunc) => {
 };
 ```
 
-### thunk + react-router-dom 연동하기
+### thunk + react-router-dom 연동
 
 react-router-dom 버전을 @^5.3.0 을 사용하자 (v6은 많은 변화가 생겼다. )  
 https://reactrouter.com/docs/en/v6/getting-started/tutorial
@@ -628,7 +616,7 @@ eg) flag-upDown game
 
 ---
 
-@Appendix
+# @Appendix
 
 # ContextAPI
 
