@@ -8,8 +8,10 @@ import { todoReducer } from "../pages/todo/state/reducer";
 import { queryReducer } from "../pages/common/state/queryReducer";
 import { serverLogReducer } from "../pages/common/state/serverLogReducer";
 import { cacheReducer } from "../pages/common/state/cacheReducer";
+import flagReducer from "../pages/flag/state/reducer";
 
 import { createBrowserHistory } from "history";
+
 export const customHistory = createBrowserHistory();
 
 const rootReducer = combineReducers({
@@ -17,6 +19,7 @@ const rootReducer = combineReducers({
   serverLog: serverLogReducer,
   query: queryReducer,
   cache: cacheReducer,
+  flag: flagReducer,
 });
 
 const rootMiddleWares = [
