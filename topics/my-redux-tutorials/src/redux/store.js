@@ -9,6 +9,9 @@ import { queryReducer } from "../pages/common/state/queryReducer";
 import { serverLogReducer } from "../pages/common/state/serverLogReducer";
 import { cacheReducer } from "../pages/common/state/cacheReducer";
 
+import { createBrowserHistory } from "history";
+export const customHistory = createBrowserHistory();
+
 const rootReducer = combineReducers({
   todo: todoReducer,
   serverLog: serverLogReducer,
@@ -19,7 +22,7 @@ const rootReducer = combineReducers({
 const rootMiddleWares = [
   //myLogger,
   reduxLogger,
-  ReduxThunk,
+  ReduxThunk.withExtraArgument({ history: customHistory }),
 ];
 
 const store = createStore(

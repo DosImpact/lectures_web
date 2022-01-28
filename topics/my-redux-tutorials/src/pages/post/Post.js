@@ -6,22 +6,39 @@ import {
   getPostV2Query,
 } from "../common/state/queryActions";
 import PostContext from "./PostContext";
-
+import { Route, Switch } from "react-router-dom";
+import { goToHome, goToPost } from "./state/actions";
 const View = () => {
   return (
     <>
       <h3>Post</h3>
       <PostSelector />
       <PostView />
+      <Switch>
+        <Route exact path="/" component={() => <div>Route:/</div>} />
+        <Route
+          exact
+          path="/post"
+          component={() => <div>Route:/post</div>}
+        ></Route>
+      </Switch>
     </>
   );
 };
 
 const PostSelector = () => {
-  const { page, setPage, totalPage, handleGetPostById } =
-    useContext(PostContext);
+  const {
+    page,
+    setPage,
+    totalPage,
+    handleGetPostById,
+    handleGotoHome,
+    handleGotoPost,
+  } = useContext(PostContext);
   return (
     <>
+      <button onClick={handleGotoHome}>Home</button>
+      <button onClick={handleGotoPost}>Post</button>
       <div>
         now page : {page} / {totalPage}
       </div>
@@ -74,6 +91,13 @@ const ViewModel = () => {
     dispatch(getPostV2Query({ id: 1 }));
   }, [dispatch]);
 
+  const handleGotoHome = () => {
+    dispatch(goToHome());
+  };
+  const handleGotoPost = () => {
+    dispatch(goToPost());
+  };
+
   return (
     <PostContext.Provider
       value={{
@@ -83,6 +107,8 @@ const ViewModel = () => {
         postQuery,
         postsQuery,
         handleGetPostById,
+        handleGotoHome,
+        handleGotoPost,
       }}
     >
       <View />

@@ -1,12 +1,14 @@
 import Todo from "./pages/todo/Todo";
 import Post from "./pages/post/Post";
+import { BrowserRouter, Router } from "react-router-dom";
+import { customHistory } from "./redux/store";
 
 function App() {
   return (
-    <div className="App">
+    <Router history={customHistory}>
       <Todo />
       <Post />
-    </div>
+    </Router>
   );
 }
 
