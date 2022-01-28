@@ -7,6 +7,8 @@ const FlagView = ({
   handleFlagUpDownTakeEvery,
   handleFlagUpDownTakeFirst,
   handleFlagUpDownTakeLast,
+  handleGoToHome,
+  handleGoToPost,
 }) => {
   return (
     <div>
@@ -66,6 +68,10 @@ const FlagView = ({
         >
           FlagUpDownTakeLast-DOWN
         </button>
+      </div>
+      <div>
+        <button onClick={handleGoToHome}>handleGoToHome</button>
+        <button onClick={handleGoToPost}>handleGoToPost</button>
       </div>
     </div>
   );

@@ -33,3 +33,19 @@ export const flagUpDownTakeLast = ({ isUp }) => ({
   type: FLAG_UPDOWN_TAKE_LAST,
   payload: { isUp },
 });
+
+export const SOME_LOGIC_NEED_FALL_BACK = "SOME_LOGIC_NEED_FALL_BACK";
+
+// 방어형 코드
+// 1. 인자로 객체가 아닌 undefiend가 넘어올때
+// func = ({args} ={}) => {}
+// 2. 인자로 객체가 넘어왔지만, 키-값이 없을때
+// func = ({args = "/"  } ={}) => {}
+
+export const someLogic = ({ fallbackUrl = "/" } = {}) => {
+  console.log("fallbackUrl", fallbackUrl);
+  return {
+    type: SOME_LOGIC_NEED_FALL_BACK,
+    payload: { fallbackUrl: fallbackUrl || "/" },
+  };
+};

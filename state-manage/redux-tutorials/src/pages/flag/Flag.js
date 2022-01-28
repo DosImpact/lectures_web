@@ -7,6 +7,7 @@ import {
   flagUpDownTakeEvery,
   flagUpDownTakeFirst,
   flagUpDownTakeLast,
+  someLogic,
 } from "./state/actions";
 
 const Flag = () => {
@@ -29,6 +30,13 @@ const Flag = () => {
     dispatch(flagUpDownTakeLast({ isUp }));
   };
 
+  const handleGoToHome = () => {
+    dispatch(someLogic());
+  };
+  const handleGoToPost = () => {
+    dispatch(someLogic({ fallbackUrl: "post" }));
+  };
+
   return (
     <div>
       <FlagView
@@ -38,6 +46,8 @@ const Flag = () => {
         handleFlagUpDownTakeEvery={handleFlagUpDownTakeEvery}
         handleFlagUpDownTakeFirst={handleFlagUpDownTakeFirst}
         handleFlagUpDownTakeLast={handleFlagUpDownTakeLast}
+        handleGoToHome={handleGoToHome}
+        handleGoToPost={handleGoToPost}
       />
     </div>
   );

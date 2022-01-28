@@ -18,7 +18,11 @@ import createSagaMiddleware from "redux-saga";
 
 export const customHistory = createBrowserHistory();
 
-const sagaMiddleware = createSagaMiddleware();
+const sagaMiddleware = createSagaMiddleware({
+  context: {
+    history: customHistory,
+  },
+});
 
 export function* rootSaga() {
   yield all([flagSaga()]);

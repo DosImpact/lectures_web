@@ -4,6 +4,7 @@ import {
   takeLeading,
   takeEvery,
   takeLatest,
+  getContext,
 } from "redux-saga/effects";
 import {
   flagDown,
@@ -13,6 +14,7 @@ import {
   FLAG_UPDOWN_TAKE_EVERY,
   FLAG_UPDOWN_TAKE_FIRST,
   FLAG_UPDOWN_TAKE_LAST,
+  SOME_LOGIC_NEED_FALL_BACK,
 } from "./actions";
 
 // 특정 액션이 발생시- 처리하는 제너레이터
@@ -39,6 +41,12 @@ function* handleFlagUpDownSaga(action) {
 // function* handleFlagUpDownSagaFirst(action) {}
 // function* handleFlagUpDownSagaLast(action) {}
 
+function* goToSomeWhere(action) {
+  const url = action.payload.fallbackUrl || "/";
+  const history = yield getContext("history");
+  history.push(url);
+}
+
 // flag 관련 액션들을 관찰하도록, 등록하는 제너레이터 함수
 export function* flagSaga() {
   yield takeEvery(FLAG_UP_ASYNC, handleFlagUpSaga);
@@ -47,4 +55,7 @@ export function* flagSaga() {
   yield takeEvery(FLAG_UPDOWN_TAKE_EVERY, handleFlagUpDownSaga);
   yield takeLeading(FLAG_UPDOWN_TAKE_FIRST, handleFlagUpDownSaga);
   yield takeLatest(FLAG_UPDOWN_TAKE_LAST, handleFlagUpDownSaga);
+  //
+
+  yield takeLatest(SOME_LOGIC_NEED_FALL_BACK, goToSomeWhere);
 }

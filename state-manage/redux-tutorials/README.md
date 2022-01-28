@@ -21,9 +21,12 @@
     - [thunk + react-router-dom 연동](#thunk--react-router-dom-연동)
   - [redux-saga](#redux-saga)
     - [saga basic](#saga-basic)
+    - [saga-example](#saga-example)
+    - [saga - react-router 연동](#saga---react-router-연동)
 - [@Appendix](#appendix)
 - [ContextAPI](#contextapi)
   - [Provider & useContext](#provider--usecontext)
+  - [default Value](#default-value)
 
 
 
@@ -740,6 +743,7 @@ sagaMiddleware.run(rootSaga);
 
 ```
 
+### saga-example
 
 eg) flag-upDown game - 2
 전제 : 깃발을 올리고 내리는 명령어는 1~2초가 걸린다 ( fetch를 비유)
@@ -800,6 +804,33 @@ export function* flagSaga() {
 
 ---
 
+
+
+### saga - react-router 연동
+
+context 에 주입하여, 라우터와 연동된 history를 사용하도록 한다.  
+
+```js
+
+// 1. customHistory context 넘겨주기 
+import { createBrowserHistory } from "history";
+import createSagaMiddleware from "redux-saga";
+
+export const customHistory = createBrowserHistory();
+
+const sagaMiddleware = createSagaMiddleware({
+  context: {
+    history: customHistory,
+  },
+});
+
+// 2. yield getContext를 통해 받아온다.
+function* goToHomeSaga() {
+  const history = yield getContext('history');
+  history.push('/');
+}
+```
+
 # @Appendix
 
 # ContextAPI
@@ -841,4 +872,20 @@ const ViewModel = () => {
     </PostContext.Provider>
   );
 };
+```
+
+
+## default Value
+
+```js
+const f1 = (args)=> {console.log(args);}
+
+// 인자가 undefined 일때 디폴트값 지정
+const f2 = (args ={})=> {console.log(args);}
+const f3 = (args = {fall:"/"} )=> {console.log(args);}
+// 객체를 인자로 받았을때, 특정 키값이 없을때 디폴트값 지정
+// - 인자가 아예없어? > 빈 객체라도 인자로 ~
+// - 객체 인자가 있지만 원하는 값이 없어 ? > 기본 키에대한 값 넘겨줄께 
+const f4 = ({fall="/"} = {})=> {console.log(fall);}
+
 ```
