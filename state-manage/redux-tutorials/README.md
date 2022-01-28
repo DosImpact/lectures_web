@@ -22,6 +22,7 @@
   - [redux-saga](#redux-saga)
     - [saga basic](#saga-basic)
     - [saga-example](#saga-example)
+    - [TODO saga - Promise 다루기](#todo-saga---promise-다루기)
     - [saga - react-router 연동](#saga---react-router-연동)
 - [@Appendix](#appendix)
 - [ContextAPI](#contextapi)
@@ -803,6 +804,11 @@ export function* flagSaga() {
 ```
 
 ---
+
+
+### TODO saga - Promise 다루기 
+
+
 
 
 
