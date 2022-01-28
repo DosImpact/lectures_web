@@ -11,7 +11,7 @@ import { cacheReducer } from "../pages/common/state/cacheReducer";
 import flagReducer from "../pages/flag/state/reducer";
 
 import { createBrowserHistory } from "history";
-import { flagSage } from "../pages/flag/state/sagas";
+import { flagSaga } from "../pages/flag/state/sagas";
 
 import { all } from "redux-saga/effects";
 import createSagaMiddleware from "redux-saga";
@@ -21,7 +21,7 @@ export const customHistory = createBrowserHistory();
 const sagaMiddleware = createSagaMiddleware();
 
 export function* rootSaga() {
-  yield all([flagSage()]);
+  yield all([flagSaga()]);
 }
 
 const rootReducer = combineReducers({

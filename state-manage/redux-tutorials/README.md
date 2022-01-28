@@ -645,12 +645,14 @@ sage 안에서 사용되는 유틸함수들
     takeLatest : 마지막 액션에 대해서만 사가를 실행하도록 한다.
     takeLeading : takeLatest 반대
 
-eg) flag-upDown game
-전제 : 깃발을 올리고 내리는 명령어는 1~2초가 걸린다 ( fetch를 비유)
 
-1. case : 1~2 초가 걸리더라도 모든 요청에대해 처리
-2. case : 1~2 초가 걸려 처리하는 동안 다른 요청은 무시
-3. case : 1~2 초가 걸려 처리하는 동안, 마지막 요청만 받음
+eg) flag-upDown game - 1
+전제 : 깃발을 올리고 내리는 명령어는 1~2초가 걸린다 ( fetch를 비유 )
+
+1. case : 1~2 초가 걸려도 count up 은 모두 반영
+2. case : 1~2 초가 걸려 처리하는 동안 다른 countDown  요청은 무시
+
+
 
 ```js
 
@@ -668,7 +670,7 @@ export const FLAG_DOWN_ASYNC = "FLAG_DOWN_ASYNC"; // sage start action
 export const flagUp = () => ({ type: FLAG_UP });
 export const flagDown = () => ({ type: FLAG_DOWN });
 
-// saga Creator
+// saga observe actionCreator
 export const flagUpAsync = () => ({ type: FLAG_UP_ASYNC });
 export const flagDownAsync = () => ({ type: FLAG_DOWN_ASYNC });
 
@@ -686,20 +688,19 @@ import {
 import { flagDown, flagUp, FLAG_UP_ASYNC, FLAG_DOWN_ASYNC } from "./actions";
 
 // 특정 액션이 발생시- 처리하는 제너레이터
-function* handleFlagUpSage() {
+function* handleFlagUpSaga(action) {
   yield delay(Math.ceil(Math.random() * 1000 + 500));
   yield put(flagUp());
 }
 
-function* handleFlagDownSage() {
+function* handleFlagDownSaga(action) {
   yield delay(Math.ceil(Math.random() * 1000 + 500));
   yield put(flagDown());
 }
-
 // flag 관련 액션들을 관찰하도록, 등록하는 제너레이터 함수
-export function* flagSage() {
-  yield takeEvery(FLAG_UP_ASYNC, handleFlagUpSage);
-  yield takeLatest(FLAG_DOWN_ASYNC, handleFlagDownSage);
+export function* flagSaga() {
+  yield takeEvery(FLAG_UP_ASYNC, handleFlagUpSaga);
+  yield takeLatest(FLAG_DOWN_ASYNC, handleFlagDownSaga);
 }
 
 
@@ -715,7 +716,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 
 export function* rootSaga() {
-  yield all([flagSage()]);
+  yield all([flagSaga()]);
 }
 
 const rootMiddleWares = [
@@ -737,10 +738,65 @@ export default store;
 sagaMiddleware.run(rootSaga);
 
 
-
-
 ```
 
+
+eg) flag-upDown game - 2
+전제 : 깃발을 올리고 내리는 명령어는 1~2초가 걸린다 ( fetch를 비유)
+
+1. case : 1~2 초가 걸리더라도 모든 요청에대해 처리
+2. case : 1~2 초가 걸려 처리하는 동안 다른 요청은 무시
+3. case : 1~2 초가 걸려 처리하는 동안, 마지막 요청만 받음
+
+```js
+
+// 1. Observe Action 정의
+
+// example)
+// - 모든 요청을 처리하는 액션 (나중에 처리되면 뒤늦게 상태가 변하는 문제 발생)
+// - 모든 요청 중 처음 요청만 처리하는 액션 (쓰로틀링)
+// - 모든 요청 중 마지막 요청만 처리하는 액션 (디바운싱)
+
+export const FLAG_UPDOWN_TAKE_EVERY = "FLAG_UPDOWN_TAKE_EVERY";
+export const FLAG_UPDOWN_TAKE_FIRST = "FLAG_UPDOWN_TAKE_FIRST";
+export const FLAG_UPDOWN_TAKE_LAST = "FLAG_UPDOWN_TAKE_LAST";
+
+export const flagUpDownTakeEvery = ({ isUp }) => ({
+  type: FLAG_UPDOWN_TAKE_EVERY,
+  payload: { isUp },
+});
+export const flagUpDownTakeFirst = ({ isUp }) => ({
+  type: FLAG_UPDOWN_TAKE_FIRST,
+  payload: { isUp },
+});
+export const flagUpDownTakeLast = ({ isUp }) => ({
+  type: FLAG_UPDOWN_TAKE_LAST,
+  payload: { isUp },
+});
+
+
+// 2. handleSaga 처리
+function* handleFlagUpDownSaga(action) {
+  const isUp = action.payload.isUp;
+  yield delay(Math.ceil(Math.random() * 1000 + 500));
+
+  if (isUp) {
+    yield put(flagUp());
+  } else {
+    yield put(flagDown());
+  }
+}
+
+// 3. localSaga 등록 
+// flag 관련 액션들을 관찰하도록, 등록하는 제너레이터 함수
+export function* flagSaga() {
+ 
+  yield takeEvery(FLAG_UPDOWN_TAKE_EVERY, handleFlagUpDownSaga);
+  yield takeLeading(FLAG_UPDOWN_TAKE_FIRST, handleFlagUpDownSaga);
+  yield takeLatest(FLAG_UPDOWN_TAKE_LAST, handleFlagUpDownSaga);
+}
+
+```
 
 ---
 
