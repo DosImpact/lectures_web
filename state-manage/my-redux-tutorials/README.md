@@ -2,7 +2,7 @@
 
 @Index
 
-- [ ] Redux Concepts
+- [x] [Redux Concepts](#Redux-Concepts)
 
   - [ ] install
   - [ ] Redux 구성
