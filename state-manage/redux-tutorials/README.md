@@ -40,7 +40,9 @@ yarn add redux react-redux
 yarn add immer
 yarn add redux-devtools-extension redux-logger redux-thunk redux-saga
 
-yarn add react-router-dom react-router-redux
+yarn add react-router-dom@^5.3.0
+yarn add react-router-redux
+
 ```
 
 ## Redux 구성
@@ -125,6 +127,45 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById("root")
 );
+```
+
+```js
+
+// actions.js
+export const INCREASE = "INCREASE";
+export const DECREASE = "DECREASE";
+
+export const increase = () => ({
+  type: INCREASE,
+});
+
+export const decrease = () => ({
+  type: DECREASE,
+});
+
+// counterReducer.js
+import { ADD_TO_LIST, CHANGE_TEXT, DECREASE, INCREASE } from "./actions";
+
+const initState = {
+  counter: 0,
+  text: "counterText",
+  list: ["hello", "world"],
+};
+
+function counterReducer(state = initState, action) {
+  const payload = action.payload;
+  switch (action.type) {
+    case INCREASE:
+      return { ...state, counter: state.counter + 1 };
+    case DECREASE:
+      return { ...state, counter: state.counter - 1 };
+    default:
+      return state;
+  }
+}
+export default counterReducer;
+
+
 ```
 
 ### useSelector
@@ -602,6 +643,7 @@ sage 안에서 사용되는 유틸함수들
     delay : sleep 의 기능을 가진다.
     takeEvery : 모니터링 하는 액션 이벤트 중, delay로 작동중이여도 모든 이벤를 취한다.
     takeLatest : 마지막 액션에 대해서만 사가를 실행하도록 한다.
+    takeLeading : takeLatest 반대
 
 eg) flag-upDown game
 전제 : 깃발을 올리고 내리는 명령어는 1~2초가 걸린다 ( fetch를 비유)
@@ -612,7 +654,93 @@ eg) flag-upDown game
 
 ```js
 
+// 1. action 정의
+// base action : 사가가 부를 액션들
+// sage action : 시가가 관찰하는 액션,(base action을 관찰해도 된다.)
+
+export const FLAG_UP = "FLAG_UP"; // base action
+export const FLAG_DOWN = " FLAG_DOWN"; // base action
+
+export const FLAG_UP_ASYNC = "FLAG_UP_ASYNC"; // sage start action
+export const FLAG_DOWN_ASYNC = "FLAG_DOWN_ASYNC"; // sage start action
+
+// base actionCreator -
+export const flagUp = () => ({ type: FLAG_UP });
+export const flagDown = () => ({ type: FLAG_DOWN });
+
+// saga Creator
+export const flagUpAsync = () => ({ type: FLAG_UP_ASYNC });
+export const flagDownAsync = () => ({ type: FLAG_DOWN_ASYNC });
+
+
+
+// 2. 제너레이터 함수 정의
+
+import {
+  put,
+  delay,
+  takeLeading,
+  takeEvery,
+  takeLatest,
+} from "redux-saga/effects";
+import { flagDown, flagUp, FLAG_UP_ASYNC, FLAG_DOWN_ASYNC } from "./actions";
+
+// 특정 액션이 발생시- 처리하는 제너레이터
+function* handleFlagUpSage() {
+  yield delay(Math.ceil(Math.random() * 1000 + 500));
+  yield put(flagUp());
+}
+
+function* handleFlagDownSage() {
+  yield delay(Math.ceil(Math.random() * 1000 + 500));
+  yield put(flagDown());
+}
+
+// flag 관련 액션들을 관찰하도록, 등록하는 제너레이터 함수
+export function* flagSage() {
+  yield takeEvery(FLAG_UP_ASYNC, handleFlagUpSage);
+  yield takeLatest(FLAG_DOWN_ASYNC, handleFlagDownSage);
+}
+
+
+// 3. 사가 미들웨어 셋팅
+// - sagaMiddleware 인스턴스 생성 및 미들웨어 주입
+// - localSages... > rootSaga 로 합칩니다.
+// - sagaMiddleware 인스턴스.run( rootSaga)
+
+import { all } from "redux-saga/effects";
+import createSagaMiddleware from "redux-saga";
+
+const sagaMiddleware = createSagaMiddleware();
+
+
+export function* rootSaga() {
+  yield all([flagSage()]);
+}
+
+const rootMiddleWares = [
+  //myLogger,
+  reduxLogger,
+  ReduxThunk.withExtraArgument({ history: customHistory }),
+  sagaMiddleware,
+];
+
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(...rootMiddleWares))
+);
+
+export default store;
+
+
+// 4.  store을 만들고 제너레이터 객체를 실행 
+sagaMiddleware.run(rootSaga);
+
+
+
+
 ```
+
 
 ---
 

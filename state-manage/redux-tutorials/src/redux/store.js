@@ -11,8 +11,18 @@ import { cacheReducer } from "../pages/common/state/cacheReducer";
 import flagReducer from "../pages/flag/state/reducer";
 
 import { createBrowserHistory } from "history";
+import { flagSage } from "../pages/flag/state/sagas";
+
+import { all } from "redux-saga/effects";
+import createSagaMiddleware from "redux-saga";
 
 export const customHistory = createBrowserHistory();
+
+const sagaMiddleware = createSagaMiddleware();
+
+export function* rootSaga() {
+  yield all([flagSage()]);
+}
 
 const rootReducer = combineReducers({
   todo: todoReducer,
@@ -26,6 +36,7 @@ const rootMiddleWares = [
   //myLogger,
   reduxLogger,
   ReduxThunk.withExtraArgument({ history: customHistory }),
+  sagaMiddleware,
 ];
 
 const store = createStore(
@@ -34,3 +45,5 @@ const store = createStore(
 );
 
 export default store;
+
+sagaMiddleware.run(rootSaga);

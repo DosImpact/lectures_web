@@ -1,18 +1,18 @@
 import { FLAG_DOWN, FLAG_UP } from "./actions";
 
 const flagReducer = (
-  state = { isFlagUp: false, lastedUpdate: null },
+  state = { flagUpCount: 0, lastedUpdate: null },
   action
 ) => {
   switch (action.type) {
     case FLAG_UP:
       return {
-        isFlagUp: true,
+        flagUpCount: state.flagUpCount + 1,
         lastedUpdate: new Date().toTimeString(),
       };
     case FLAG_DOWN:
       return {
-        isFlagUp: false,
+        flagUpCount: state.flagUpCount - 1,
         lastedUpdate: new Date().toTimeString(),
       };
     default:
