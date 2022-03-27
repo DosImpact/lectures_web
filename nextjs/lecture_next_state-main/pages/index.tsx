@@ -1,12 +1,19 @@
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
-import { Button, ButtonGroup } from "@chakra-ui/react";
+import { Button, ButtonGroup, Link } from "@chakra-ui/react";
+import { useRouter } from "next/dist/client/router";
 
 const Test = () => {
+  const router = useRouter();
+  const handleClick = () => {
+    router.push("/todo");
+  };
   return (
     <div>
-      <Button colorScheme="blue">Button</Button>
+      <Button colorScheme="blue" onClick={handleClick}>
+        Button
+      </Button>
     </div>
   );
 };
@@ -21,7 +28,10 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <Test />
+        <Test />{" "}
+        <div>
+          <Link href="todo">Go To Todo</Link>
+        </div>
       </main>
     </div>
   );
