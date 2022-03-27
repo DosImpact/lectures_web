@@ -1,8 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/dist/client/router";
 
 const index = ({ photo, renderingType }) => {
+  const router = useRouter();
+  console.log("-->router", router);
   // console.log("photo", photo);
   return (
     <section>
@@ -44,11 +47,12 @@ export const getStaticProps = async (context) => {
   return {
     props: {
       photo,
-      renderingType: "StaticStie",
+      renderingType: "StaticSite",
     },
     revalidate: 300,
   };
 };
+
 // SSG을 선택했고, route 경로에 [ ] ( query,params) 가 있다면
 // 해당 경로들의 Range를 지정해 줘야 한다.
 export const getStaticPaths = async () => {
@@ -64,7 +68,7 @@ export const getStaticPaths = async () => {
 
   return {
     paths,
-    // fallback: false,
+    // fallback: false, // 없으면 404 애러
     fallback: "blocking", // blocking 경우에는 경로가 없다면 context 동적으로 만들어 랜더링해서 제공
   };
 };

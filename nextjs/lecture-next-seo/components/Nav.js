@@ -6,16 +6,16 @@ const Nav = () => {
   return (
     <ul className={navStyles.navigation}>
       <li>
-        <Link href="/">home</Link>
+        <Link href="/">Home</Link>
       </li>
       <li>
-        <Link href="/photos">photos</Link>
+        <Link href="/photos">Photos(SSG)</Link>
       </li>
       <li>
-        <Link href="/pictures">pictures</Link>
+        <Link href="/pictures">Pictures(SSR)</Link>
       </li>
       <li>
-        <Link href="/albums">albums</Link>
+        <Link href="/albums">Albums(CSR)</Link>
       </li>
     </ul>
   );
