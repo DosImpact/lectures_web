@@ -22,6 +22,7 @@
   - [SSG - Static Site Rendering](#ssg---static-site-rendering)
     - [eg) getStaticProps - 1](#eg-getstaticprops---1)
     - [eg) getStaticPaths - 2 dynamic SSG](#eg-getstaticpaths---2-dynamic-ssg)
+  - [Deploy to Vercel](#deploy-to-vercel)
 
 ref : 
 tutorial 
@@ -417,3 +418,11 @@ export const getStaticPaths = async () => {
 };
 
 ```
+
+## Deploy to Vercel  
+
+주의 사항  
+- rootDir 경로 확인  
+- npm, yarn lock 파일은 하나만 사용할 것  
+- 로컬에서 build 이후 베포하기  
+  - SSR 사용하게 되면, index 컴포넌트에서는 훅 사용 불가  

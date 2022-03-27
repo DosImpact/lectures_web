@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
 
 const index = ({ photo, renderingType }) => {
-  const router = useRouter();
-  console.log("-->router", router);
+  // const router = useRouter();
+  // console.log("-->router", router);
   // console.log("photo", photo);
   return (
     <section>
