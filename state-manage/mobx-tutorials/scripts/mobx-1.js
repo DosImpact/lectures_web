@@ -1,8 +1,6 @@
 const { observable, autorun, runInAction } = require("mobx");
 
-// observable : state.
-// autorun : observable가 만들어지거나, 변화시 callback excute
-// runInAction : if change state action, High order function.
+// runInAction : 액션(상태변화)를 단위로 묶어서 실행,
 //  - 일련의 액션들을 묶어서 하나의 액션으로 처리함.
 
 const state = observable({
@@ -15,7 +13,7 @@ const state2 = observable({
 });
 
 autorun(() => {
-  console.log("something is changed state1", state.name, state.age);
+  console.log("something is changed state1", state.name, state.name);
 });
 
 autorun(() => {
@@ -23,7 +21,7 @@ autorun(() => {
 });
 
 autorun(() => {
-  console.log("something is changed state2", state2.age, state2.name);
+  console.log("something is changed state2", state2.name, state2.name);
 });
 
 runInAction(() => {
@@ -37,14 +35,16 @@ runInAction(() => {
 });
 
 /*
-something is changed state1 dodo 21
+// observable 이 만들어짐
+something is changed state1 dodo dodo
 something is changed state 1 or 2 dodo sky
-something is changed state2 40 sky
+something is changed state2 sky sky
 ---
-something is changed state1 updated 100
+// state1 변화
+something is changed state1 updated updated
 something is changed state 1 or 2 updated sky
 ---
-omething is changed state 1 or 2 updated updated
-something is changed state2 200 updated
-
+// state2 변화
+something is changed state 1 or 2 updated updated
+something is changed state2 updated updated
 */
