@@ -1,7 +1,8 @@
+/dist
+
+
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 .idea
-
 # dependencies
 /node_modules
 /.pnp
@@ -34,3 +35,4 @@ yarn-error.log*
 
 # vercel
 .vercel
+state-manage/mobx-tutorials/README.md
