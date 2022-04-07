@@ -3,7 +3,9 @@
 
 https://github.com/RiyaNegi/react-webpack 
 
-## webpack - react setting
+## 1. webpack - react setting
+
+목적 : setting jsx env   
 
 ```
 npm init -y
@@ -109,5 +111,35 @@ import App from "./App";
 
 ReactDOM.render(<App />, document.getElementById("app"));
 
+
+```
+
+## 2. webpack - typescript react setting
+
+- typescript  
+  - allowJS
+  - paths settings
+
+
+- javascript - decorators
+  - babel settings
+
+## mobx 
+
+```
+yarn add mobx
+```
+
+## mobx concepts. 
+
+```
+
+state : 객체  
+-  observable 감싸기.
+
+action : 객체 변화
+
+observer
+- observable 로 객체가 변하면 이를 안다.
 
 ```

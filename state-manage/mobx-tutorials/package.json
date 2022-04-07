@@ -12,6 +12,7 @@
   "author": "dosimpact <ypd03008@gmail.com> (https://github.com/DosImpact)",
   "license": "ISC",
   "dependencies": {
+    "mobx": "^6.5.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
