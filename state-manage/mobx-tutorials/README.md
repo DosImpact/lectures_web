@@ -124,6 +124,20 @@ ReactDOM.render(<App />, document.getElementById("app"));
 - javascript - decorators
   - babel settings
 
+```
+yarn add -D @babel/plugin-proposal-decorators
+
+./babel.config.json 
+{
+  "presets": ["@babel/preset-env", "@babel/preset-react"],
+  "plugins": [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-proposal-class-properties", { "loose": true }]
+  ]
+}
+
+// *- 플러그인의 순서가 중요하다.
+```
 
 ## 3. ts.config - IDE Settings
 
