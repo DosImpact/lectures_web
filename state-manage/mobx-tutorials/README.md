@@ -281,7 +281,7 @@ mobx-react 에서 observer 를 제공해준다.
 - mobx 에서도, contextAPI를 권장하고 있고 provider + inject 조합을 비추천한다.  
 
 
-mobx-react 를 사용하면 useState를 대처할 수 있다. (로컬State 대처)
+mobx-react 를 사용하면 useState를 대처할 수 있다. ( 로컬State 대처)
 - 위 경우 global state를 위해, observer 객체를 임포트 하였다.   
 - 하지만 로컬의(클래스,함수)컴포넌트의 상태를 관리할 목적으로 mobx를 사용해도 된다.  
 
@@ -334,5 +334,19 @@ always는 @action, action() 을 쓰도록 한다.
 - action() : this을 쓰려면 function으로 만들어야 한다.  
   * ()=>{ } 을 쓰려면, state 명시하여 가능   
   * 조금더 알아보기 : ()=>{} 는 this 바인딩이 action에 의해 변경된다.?? 
+
+```
+
+
+
+## practice 
+
+1. class component todo store 
+
+```
+1. obserable store 
++ action
+
+2. observer component 
 
 ```
