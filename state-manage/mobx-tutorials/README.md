@@ -234,23 +234,24 @@ yarn add -D @babel/plugin-proposal-decorators
 
 ## mobx concepts. 
 
+### scripts
 
 state : 객체    
--  observable 감싸기.  
+-  observable 로 감싸기.  
 
-action : 객체 변화  
+action : 객체를 변화시키는 함수  
 
 observer  
-- observable 로 객체가 변하면 이를 안다.  
+- observable 로 객체가 변하면 이를 구독.  
 
 MobX 도 원래 웹을 위해서 나온 상태관리 도구는 아니다.  
-- 공식문서에는 내용이 많지만, 전부 사용하지는 않는다.  
+- 공식문서에는 여러 유틸 함수들이 많지만, 전부 사용하지는 않는다.  
 
 Mobx의 대표 함수들  
 
-- 변화 감지 대상을 고르고  
-- 변화를 시키는 함수를 만들고   
-- 변화시 호출할 함수를 등록하고 끝.  
+- observable : 변화 감지 대상을 고르고  
+- runInAction,action : 변화를 시키는 함수를 만들고   
+- action, reaction : 변화시 호출할 함수를 등록하고 끝.  
 
 ```
 // observable : 변화를 감지할 객체를 감싸는 HOF
@@ -265,21 +266,21 @@ Mobx의 대표 함수들
 ```
 
 웹 브라우저에서, 클래스를 막 찍어내야 하는 상황이 생길까?    
-- 클래스들이 싱글톤처럼 더 다루어 지지 않는가?  
-
-
+- 클래스들이 싱글톤처럼 더 다루어 지지 않는가?   
 
 
 ## mobx-react concepts. 
 
-mobx-react 에서 observer 를 제공해준다. 
-- observer는 obserable객체가 변경되었을때, 리랜더링이 되도록 한다. 
+### Global State Manage
+mobx-react 에서 observer 를 제공해준다.  
+- observer는 obserable객체가 변경되었을때, 리랜더링이 되도록 한다.  
 
 - 함수형 컴포넌트 적용 : useObserver
 - 클래스 컴포넌트 적용 : @observer or observer HOC 적용. 
 - observer 객체를 임포트 해서 사용하면 된다. 즉, provider가 필요 없음. 
 - mobx 에서도, contextAPI를 권장하고 있고 provider + inject 조합을 비추천한다.  
 
+### Local State Manage
 
 mobx-react 를 사용하면 useState를 대처할 수 있다. ( 로컬State 대처)
 - 위 경우 global state를 위해, observer 객체를 임포트 하였다.   
@@ -348,5 +349,18 @@ always는 @action, action() 을 쓰도록 한다.
 + action
 
 2. observer component 
+
+```
+
+2. function component todo store 
+
+```
+
+
+```
+
+3. function component todo store with ContextAPI
+
+```
 
 ```
