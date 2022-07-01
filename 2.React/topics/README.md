@@ -7,3 +7,7 @@
 - [ ] Redux
 - [ ] Redux + Typescript
 - [ ] StoryBook
+
+- [ ] 2.react-re-rerendering : 리액트 랜더링과 최적화
+
+
