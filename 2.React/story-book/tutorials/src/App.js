@@ -1,5 +1,5 @@
-import React from "react";
-import { Counter } from "./Counter";
+import React from 'react'
+import { Counter } from './Counter'
 
 function App() {
   return (
@@ -17,7 +17,7 @@ function App() {
 
       <h3>SVG Test </h3>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
