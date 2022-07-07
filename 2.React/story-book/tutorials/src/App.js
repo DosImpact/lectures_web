@@ -16,6 +16,12 @@ function App() {
       <h3>SCSS Test</h3>
 
       <h3>SVG Test </h3>
+
+      <h3>Img Test</h3>
+
+      <h3>Story Book Test</h3>
+
+      <h3></h3>
     </div>
   )
 }
