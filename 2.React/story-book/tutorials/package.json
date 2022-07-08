@@ -8,8 +8,8 @@
     "client:build": "webpack --mode production",
     "lint": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
     "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
-    "storybook:start": "start-storybook",
-    "storybook:build": "build-storybook"
+    "story:start": "start-storybook",
+    "story:build": "build-storybook"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",
@@ -22,6 +22,7 @@
     "@storybook/addon-essentials": "^6.5.9",
     "@storybook/preset-typescript": "^3.0.0",
     "@storybook/react": "^6.5.9",
+    "@types/node": "^18.0.3",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.30.5",
