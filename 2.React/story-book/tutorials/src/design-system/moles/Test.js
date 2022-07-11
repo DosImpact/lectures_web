@@ -1,5 +1,5 @@
 import React from 'react'
-import { Counter } from '../atoms/Counter'
+import { Counter } from '../atoms/counter/Counter'
 
 const Test = () => {
   return (
