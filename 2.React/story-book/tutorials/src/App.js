@@ -1,11 +1,14 @@
 import React from 'react'
-import { Counter } from './components/Counter'
+import { Counter } from './design-system/atoms/Counter'
+import Test from './design-system/moles/Test'
 
 function App() {
   return (
     <div>
       <h1>Welcome to React App</h1>
       <h3>Date : {new Date().toDateString()}</h3>
+      <h3>JSX Test</h3>
+      <Test />
 
       <h3>TSX Test </h3>
       <Counter />

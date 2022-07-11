@@ -1,8 +1,8 @@
 import React from 'react'
-import Test from '../../components/Test'
+import Test from './Test'
 
 export default {
-  title: 'test-component',
+  title: 'Design System/Molecules/test-component',
 }
 
 export const Common = () => <Test />
